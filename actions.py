@@ -54,7 +54,19 @@ class Actions:
             return False
 
         # Get the direction from the list of words.
-        direction = list_of_words[1]
+
+        directions = {"NORD":"N", "N":"N", "Sud": "S", "S":"S",
+        "OUEST":"O", "O":"O", "EST":"E", "E":"E", "UP":"U", "U":"U", "DOWN":"D", "D":"D"}
+        direction = list_of_words[1].upper() #majuscule
+
+        if direction in directions:
+            direction = directions[direction]
+            #move the player in the direction specified by the parameter
+            player.move(direction)
+        else:
+            print ("\nDirection", direction, "non reconnue")
+        return True
+        
         # Move the player in the direction specified by the parameter.
         player.move(direction)
         return True

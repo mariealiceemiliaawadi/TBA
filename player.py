@@ -7,6 +7,17 @@ class Player():
         self.current_room = None
         self.inventory = {}
 
+    # Return a string describing the player's inventory.
+    def get_inventory(self):
+        # If the inventory is empty.
+        if not self.inventory:
+            return "Votre inventaire est vide."
+
+        inventory_string = "Vous disposez des items suivants :\n"
+        for item in self.inventory.values():
+            inventory_string += f"- {item}\n"
+        return inventory_string
+
     # Define the move method.
     def move(self, direction):
         # Get the next room from the exits dictionary of the current room.

@@ -5,7 +5,8 @@ class Player():
     def __init__(self, name):
         self.name = name
         self.current_room = None
-    
+        self.inventory = {}
+
     # Define the move method.
     def move(self, direction):
         # Get the next room from the exits dictionary of the current room.

@@ -29,6 +29,10 @@ class Game:
         self.commands["quit"] = quit
         go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O)", Actions.go, 1)
         self.commands["go"] = go
+        history = Command("history", " : consulter son historique", Actions.history, 0)
+        self.commands["history"] = history
+        back = Command("back", " : revenir à la pièce précédente", Actions.back, 0)
+        self.commands["back"] = back
         look = Command("look", " : afficher la liste des items présents dans cette pièce", Actions.look, 0)
         self.commands["look"] = look
         take = Command("take", " : prendre les items présents dans la pièce ", Actions.take, 1)

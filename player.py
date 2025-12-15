@@ -6,6 +6,17 @@ class Player():
         self.name = name
         self.current_room = None
         self.inventory = {}
+        self.history = []
+
+    def get_history(self):
+        if not self.history:
+            return "Aucune pièce visitée pour le moment."
+
+        s = "Vous avez déjà visité les pièces suivantes :\n"
+        for room in self.history:
+            s += f"- {room.name}\n"
+        return s
+
 
     # Return a string describing the player's inventory.
     def get_inventory(self):
@@ -28,6 +39,9 @@ class Player():
             print("\nAucune porte dans cette direction !\n")
             return False
         
+        #Ajouter la room actuelle dans l'historique
+        self.history.append(self.current_room)
+
         # Set the current room to the next room.
         self.current_room = next_room
         print(self.current_room.get_long_description())

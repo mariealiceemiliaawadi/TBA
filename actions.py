@@ -150,6 +150,31 @@ class Actions:
         print()
         return True
 
+    def history(game, list_of_words, number_of_parameters):
+        if len(list_of_words) != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+
+        print(game.player.get_history())
+        return True
+
+    def back(game, list_of_words, number_of_parameters):
+        if len(list_of_words) != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG0.format(command_word=command_word))
+            return False
+
+        player = game.player
+
+        if not player.history:
+            print("Vous ne pouvez pas revenir en arrière.")
+            return False
+
+        player.current_room = player.history.pop()
+        print(player.current_room.get_long_description())
+        return True
+
     def look(game, list_of_words, number_of_parameters):
         if len(list_of_words) != number_of_parameters + 1:
             command_word = list_of_words[0]

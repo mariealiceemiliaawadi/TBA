@@ -52,6 +52,14 @@ class Game:
         self.rooms.append(pierres_cristal)
         jardins_fleurs = Room("jardins_fleurs", "dans un jardin magique où les fleurs dégagent un parfum étourdissant et dangereux.")
         self.rooms.append(jardins_fleurs)
+        grotte_lumineuse = Room("grotte_lumineuse","dans une grotte scintillante où des cristaux diffusent une lumière surnaturelle.")
+        self.rooms.append(grotte_lumineuse)
+        arbre_ancien = Room("arbre_ancien","au pied d’un arbre millénaire dont le tronc est couvert de symboles anciens.")
+        self.rooms.append(arbre_ancien)
+        mare_brulee = Room("mare_brulee","près d’une mare bouillonnante dont l’eau noire dégage une chaleur inquiétante.")
+        self.rooms.append(mare_brulee)
+        ruines_elfiques = Room("ruines_elfiques","au milieu de ruines elfiques envahies par la mousse et la magie oubliée.")
+        self.rooms.append(ruines_elfiques)
 
         # Create exits for rooms
 
@@ -60,7 +68,11 @@ class Game:
         lac_miroir.exits = {"N": pont_arc, "E": jardins_fleurs, "S": sentier_lanternes, "O": clairiere }
         sentier_lanternes.exits = {"N": clairiere, "E": jardins_fleurs, "S": lac_miroir, "O":  pont_arc }
         pierres_cristal.exits = {"N": jardins_fleurs, "E": sentier_lanternes, "S": lac_miroir, "O": pont_arc }
-        jardins_fleurs.exits = {"N": pont_arc, "E": None, "S": lac_miroir, "O": sentier_lanternes }
+        jardins_fleurs.exits = {"N": pont_arc, "E": ruines_elfiques, "S": lac_miroir, "O": sentier_lanternes }
+        ruines_elfiques.exits = {"O": jardins_fleurs,"N": arbre_ancien,"E": grotte_lumineuse,"S": mare_brulee}
+        arbre_ancien.exits = {"S": ruines_elfiques,"O": pont_arc,"E": None,"N": None}
+        grotte_lumineuse.exits = {"O": ruines_elfiques,"S": pierres_cristal,"N": None,"E": None}
+        mare_brulee.exits = {"N": ruines_elfiques,"O": sentier_lanternes,"E": None,"S": None}
 
         for room in self.rooms :
             self.directions.update(room.exits.keys())
@@ -77,6 +89,10 @@ class Game:
         pierre_chantante = Item("pierre","une pierre mystérieuse qui murmure lorsque vous l'approchez",2)
         lanterne_elfique = Item("lanterne","une lanterne elfique éclairant même les ténèbres magiques",2)
         fleur_somnolente = Item("fleur","une fleur enchantée dont le parfum peut endormir les imprudents",1)
+        racine_magique = Item("racine", "une racine noueuse imprégnée de magie ancienne", 2)
+        pierre_chaude = Item("charbon", "une pierre brûlante issue de la mare", 2)
+        tablette_elfique = Item("tablette", "une tablette gravée de runes elfiques", 3)
+        cristal_pur = Item("cristal_pur", "un cristal d'une pureté exceptionnelle", 2)
 
         # Place enchanted items in rooms
 
@@ -86,6 +102,10 @@ class Game:
         sentier_lanternes.inventory["poussiere"] = poussiere_fee
         pierres_cristal.inventory["feuille"] = feuille_ancestrale
         jardins_fleurs.inventory["fleur"] = fleur_somnolente
+        arbre_ancien.inventory["racine"] = racine_magique
+        mare_brulee.inventory["charbon"] = pierre_chaude
+        ruines_elfiques.inventory["tablette"] = tablette_elfique
+        grotte_lumineuse.inventory["cristal_pur"] = cristal_pur
 
     # Play the game
     def play(self):

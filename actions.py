@@ -160,3 +160,21 @@ class Actions:
         print(room.get_long_description())
         print(room.get_inventory())
         return True
+
+    def take(game, list_of_words, number_of_parameters):
+        if len(list_of_words) != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG1.format(command_word=command_word))
+            return False
+
+        item_name = list_of_words[1]
+        room = game.player.current_room
+        player = game.player
+
+        if item_name not in room.inventory:
+            print(f"\nIl n'y a pas d'objet '{item_name}' ici.\n")
+            return False
+
+        player.inventory[item_name] = room.inventory.pop(item_name)
+        print(f"\nVous avez pris : {player.inventory[item_name]}\n")
+        return True

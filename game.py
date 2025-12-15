@@ -74,6 +74,15 @@ class Game:
         lanterne_elfique = Item("lanterne","une lanterne elfique éclairant même les ténèbres magiques",2)
         fleur_somnolente = Item("fleur","une fleur enchantée dont le parfum peut endormir les imprudents",1)
 
+        # Place enchanted items in rooms
+
+        clairiere.inventory["baton"] = baton_lumineux
+        pont_arc.inventory["lanterne"] = lanterne_elfique
+        lac_miroir.inventory["pierre"] = pierre_chantante
+        sentier_lanternes.inventory["poussiere"] = poussiere_fee
+        pierres_cristal.inventory["feuille"] = feuille_ancestrale
+        jardins_fleurs.inventory["fleur"] = fleur_somnolente
+
     # Play the game
     def play(self):
         self.setup()

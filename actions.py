@@ -178,3 +178,22 @@ class Actions:
         player.inventory[item_name] = room.inventory.pop(item_name)
         print(f"\nVous avez pris : {player.inventory[item_name]}\n")
         return True
+
+    def drop(game, list_of_words, number_of_parameters):
+        if len(list_of_words) != number_of_parameters + 1:
+            command_word = list_of_words[0]
+            print(MSG1.format(command_word=command_word))
+            return False
+
+        item_name = list_of_words[1]
+        player = game.player
+        room = player.current_room
+
+        if item_name not in player.inventory:
+            print(f"\nVous n'avez pas d'objet '{item_name}'.\n")
+            return False
+
+        room.inventory[item_name] = player.inventory.pop(item_name)
+        print(f"\nVous avez reposé : {room.inventory[item_name]}\n")
+        return True
+

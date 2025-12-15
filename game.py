@@ -66,6 +66,14 @@ class Game:
         self.player = Player(input("\nEntrez votre nom: "))
         self.player.current_room = pont_arc
 
+        # Create enchanted forest items
+        baton_lumineux = Item("baton","un bâton ancien gravé de runes, diffusant une douce lumière",2)
+        poussiere_fee = Item("poussiere","une poudre scintillante laissée par les fées de la forêt",1)
+        feuille_ancestrale = Item("feuille","une feuille dorée chargée de magie protectrice",1)
+        pierre_chantante = Item("pierre","une pierre mystérieuse qui murmure lorsque vous l'approchez",2)
+        lanterne_elfique = Item("lanterne","une lanterne elfique éclairant même les ténèbres magiques",2)
+        fleur_somnolente = Item("fleur","une fleur enchantée dont le parfum peut endormir les imprudents",1)
+
     # Play the game
     def play(self):
         self.setup()

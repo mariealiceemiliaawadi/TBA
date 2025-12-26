@@ -7,6 +7,7 @@ from player import Player
 from command import Command
 from actions import Actions
 from item import Item
+from character import Character
 
 class Game:
 
@@ -64,6 +65,16 @@ class Game:
         self.rooms.append(mare_brulee)
         ruines_elfiques = Room("ruines_elfiques","au milieu de ruines elfiques envahies par la mousse et la magie oubliée.")
         self.rooms.append(ruines_elfiques)
+
+        # Create characters
+
+        Luci = Character( "Luci la fée","une petite fée lumineuse qui flotte doucement dans l’air",["Bienvenue voyageur… la forêt t’observe."])
+        gardien = Character("Le Gardien de Cristal","un être ancien fait de pierre et de lumière",["Les pierres ne parlent qu’aux âmes patientes."])
+        nymphe = Character("La Nymphe du lac","une silhouette translucide émergeant de l’eau",["Prends garde… le lac ne pardonne pas."])
+
+        clairiere.add_character(luci)
+        pierres_cristal.add_character(gardien)
+        lac_miroir.add_character(nymphe)
 
         # Create exits for rooms
 

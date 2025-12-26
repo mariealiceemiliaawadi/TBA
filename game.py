@@ -72,7 +72,7 @@ class Game:
         gardien = Character("Le Gardien de Cristal","un être ancien fait de pierre et de lumière",["Les pierres ne parlent qu’aux âmes patientes."])
         nymphe = Character("La Nymphe du lac","une silhouette translucide émergeant de l’eau",["Prends garde… le lac ne pardonne pas."])
 
-        clairiere.add_character(luci)
+        clairiere.add_character(Luci)
         pierres_cristal.add_character(gardien)
         lac_miroir.add_character(nymphe)
 

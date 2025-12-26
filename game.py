@@ -1,5 +1,8 @@
 # Description: Game class
 
+# Variable de contrôle pour le debug
+DEBUG = False
+
 # Import modules
 
 from room import Room
@@ -42,6 +45,9 @@ class Game:
         self.commands["drop"] = drop
         check = Command("check", " : afficher l'inventaire du joueur", Actions.check, 0)
         self.commands["check"] = check
+        talk = Command("talk", "<personnage> : parler à un PNJ", Actions.talk, 1)
+        self.commands["talk"] = talk
+        
         
         # Setup rooms
 
@@ -67,13 +73,12 @@ class Game:
         self.rooms.append(ruines_elfiques)
 
         # Create characters
-
-        Luci = Character( "Luci la fée","une petite fée lumineuse qui flotte doucement dans l’air",["Bienvenue voyageur… la forêt t’observe."])
-        mage_pont = Character("Aeral le Mage","un mage vêtu d’une cape changeant de couleur à chaque pas",["Le pont réagit aux émotions… marche avec prudence."])
-        gardien = Character("Le Gardien de Cristal","un être ancien fait de pierre et de lumière",["Les pierres ne parlent qu’aux âmes patientes."])
-        veilleur = Character("Le Veilleur des Lanternes","un vieil esprit silencieux tenant une lanterne tremblante",["Les lanternes montrent parfois ce que l’on fuit."])
-        nymphe = Character("La Nymphe du lac","une silhouette translucide émergeant de l’eau",["Prends garde… le lac ne pardonne pas."])
-        dryade = Character("La Dryade des Fleurs","une créature végétale aux yeux brillants cachée parmi les pétales",["Respire lentement… certaines fleurs endorment pour toujours."])
+        Luci = Character("Luci la fée", "une petite fée lumineuse qui flotte doucement dans l’air", clairiere, ["Bienvenue voyageur… la forêt t’observe."])
+        mage_pont = Character("Aeral le Mage", "un mage vêtu d’une cape changeant de couleur à chaque pas", pont_arc, ["Le pont réagit aux émotions… marche avec prudence."])
+        gardien = Character("Le Gardien de Cristal", "un être ancien fait de pierre et de lumière", pierres_cristal, ["Les pierres ne parlent qu’aux âmes patientes."])
+        veilleur = Character("Le Veilleur des Lanternes", "un vieil esprit silencieux tenant une lanterne tremblante", sentier_lanternes, ["Les lanternes montrent parfois ce que l’on fuit."])
+        nymphe = Character("La Nymphe du lac", "une silhouette translucide émergeant de l’eau", lac_miroir, ["Prends garde… le lac ne pardonne pas."])
+        dryade = Character("La Dryade des Fleurs", "une créature végétale aux yeux brillants cachée parmi les pétales", jardins_fleurs, ["Respire lentement… certaines fleurs endorment pour toujours."])
 
         clairiere.add_character(Luci)
         pont_arc.add_character(mage_pont)
@@ -136,7 +141,13 @@ class Game:
         while not self.finished:
             # Get the command from the player
             self.process_command(input("> "))
-        return None
+
+            # Déplacer tous les PNJ après chaque commande
+            for room in self.rooms:
+                for character in room.characters[:]:  # copie de la liste
+                    moved = character.move()
+                    if moved and DEBUG:
+                        print(f"DEBUG: {character.name} s'est déplacé")
 
     # Process the command entered by the player
     def process_command(self, command_string) -> None:

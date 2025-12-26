@@ -30,18 +30,18 @@ class Room:
 
     # Return a string describing the room's inventory.
     def get_inventory(self):
-        if not self.inventory:
-            return "Il n'y a rien ici."
-
-        inventory_string = "La pièce contient :\n"
+        result = ""
+        # Affichage des items
         for item in self.inventory.values():
-            inventory_string += f"- {item}\n"
-
-        # Personnages non joueurs (ajout)
+            result += f"- {item.name} : {item.description} ({item.weight} kg)\n"
+        
+        # Affichage des personnages non joueurs
         for character in self.characters:
-            inventory_string += f"- {character.name} : {character.description}\n"
-
-        return inventory_string
+            result += f"- {character.name} : {character.description}\n"
+        
+        if result == "":
+            return "Il n'y a rien ici."
+        return result
 
     # Return a long description of this room including exits.
     def get_long_description(self):

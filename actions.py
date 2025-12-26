@@ -61,15 +61,18 @@ class Actions:
 
         if direction in directions:
             direction = directions[direction]
-            #move the player in the direction specified by the parameter
-            player.move(direction)
+            next_room = player.current_room.get_exit(direction)
+            if next_room:
+                player.history.append(player.current_room)
+                player.current_room = next_room
+                print(player.current_room.get_long_description())
+            else:
+                print("\nAucune porte dans cette direction !")
         else:
-            print ("\nDirection", direction, "non reconnue")
+            print("\nDirection", direction, "non reconnue")
+
         return True
-        
-        # Move the player in the direction specified by the parameter.
-        player.move(direction)
-        return True
+
 
     def quit(game, list_of_words, number_of_parameters):
         """
@@ -183,7 +186,7 @@ class Actions:
 
         room = game.player.current_room
         print(room.get_long_description())
-        print(room.get_inventory())
+        print(room.get_inventory())  # affichera items + PNJ
         return True
 
     def take(game, list_of_words, number_of_parameters):
@@ -230,4 +233,19 @@ class Actions:
 
         print(game.player.get_inventory())
         return True
+
+    def talk(game, list_of_words, number_of_parameters):
+        if len(list_of_words) < 2:
+            print("Parlez à qui ?")
+            return False
+
+        name = " ".join(list_of_words[1:]).lower()
+
+        for c in game.player.current_room.characters:
+            if name in c.name.lower():
+                print(c.get_msg())
+                return True
+
+        print("Personnage non trouvé.")
+        return False
 

@@ -69,12 +69,18 @@ class Game:
         # Create characters
 
         Luci = Character( "Luci la fée","une petite fée lumineuse qui flotte doucement dans l’air",["Bienvenue voyageur… la forêt t’observe."])
+        mage_pont = Character("Aeral le Mage","un mage vêtu d’une cape changeant de couleur à chaque pas",["Le pont réagit aux émotions… marche avec prudence."])
         gardien = Character("Le Gardien de Cristal","un être ancien fait de pierre et de lumière",["Les pierres ne parlent qu’aux âmes patientes."])
+        veilleur = Character("Le Veilleur des Lanternes","un vieil esprit silencieux tenant une lanterne tremblante",["Les lanternes montrent parfois ce que l’on fuit."])
         nymphe = Character("La Nymphe du lac","une silhouette translucide émergeant de l’eau",["Prends garde… le lac ne pardonne pas."])
+        dryade = Character("La Dryade des Fleurs","une créature végétale aux yeux brillants cachée parmi les pétales",["Respire lentement… certaines fleurs endorment pour toujours."])
 
         clairiere.add_character(Luci)
+        pont_arc.add_character(mage_pont)
         pierres_cristal.add_character(gardien)
+        sentier_lanternes.add_character(veilleur)
         lac_miroir.add_character(nymphe)
+        jardins_fleurs.add_character(dryade)
 
         # Create exits for rooms
 

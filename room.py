@@ -36,6 +36,11 @@ class Room:
         inventory_string = "La pièce contient :\n"
         for item in self.inventory.values():
             inventory_string += f"- {item}\n"
+
+        # Personnages non joueurs (ajout)
+        for character in self.characters:
+            inventory_string += f"- {character.name} : {character.description}\n"
+
         return inventory_string
 
     # Return a long description of this room including exits.

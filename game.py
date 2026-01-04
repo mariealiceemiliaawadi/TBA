@@ -11,7 +11,7 @@ from command import Command
 from actions import Actions
 from item import Item
 from character import Character
-from actions import talk
+
 
 
 class Game:
@@ -47,8 +47,8 @@ class Game:
         self.commands["drop"] = drop
         check = Command("check", " : afficher l'inventaire du joueur", Actions.check, 0)
         self.commands["check"] = check
-        talk = Command("talk", "<personnage> : parler à un PNJ", Actions.talk, 1)
-        self.commands["talk"] = talk
+        talk_cmd = Command("talk", "<personnage> : parler à un PNJ", Actions.talk, -1)
+        self.commands["talk"] = talk_cmd
 
                 
         
@@ -77,7 +77,7 @@ class Game:
 
         # Create characters 
         Luci = Character("Luci la fée", "une petite fée lumineuse qui flotte doucement dans l’air", clairiere, ["Bienvenue voyageur… la forêt t’observe."])
-        mage_pont = Character("Aeral le Mage", "un mage vêtu d’une cape changeant de couleur à chaque pas", pont_arc, ["Le pont réagit aux émotions… marche avec prudence."])
+        mage_pont = Character("Aeral le Mage", "un mage vêtu d’une cape changeant de couleur à chaque pas", pont_arc, ["Le pont réagit aux émotions… marche avec prudence.", "Tu devrais faire plus attention où tu poses tes pieds voyons!"])
         gardien = Character("Le Gardien de Cristal", "un être ancien fait de pierre et de lumière", pierres_cristal, ["Les pierres ne parlent qu’aux âmes patientes."])
         veilleur = Character("Le Veilleur des Lanternes", "un vieil esprit silencieux tenant une lanterne tremblante", sentier_lanternes, ["Les lanternes montrent parfois ce que l’on fuit."])
         nymphe = Character("La Nymphe du lac", "une silhouette translucide émergeant de l’eau", lac_miroir, ["Prends garde… le lac ne pardonne pas."])

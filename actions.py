@@ -241,30 +241,23 @@ class Actions:
         return True
 
     def talk(game, list_of_words, nb_params):
-    """
-    Permet de parler à un PNJ présent dans la pièce.
-    La commande est de la forme : talk <nom_du_personnage>
-    """
-
         if len(list_of_words) < 2:
             print("\nPrécisez le personnage à qui parler !\n")
-            return
+            return False
 
-        # Recombine tous les mots après 'talk' pour former le nom complet
         npc_name = " ".join(list_of_words[1:])
-
-        # Cherche le PNJ dans la pièce actuelle du joueur
         npc = None
         for character in game.player.current_room.characters:
-            if character.name.lower() == npc_name.lower():  # ignore la casse
+            if character.name.lower() == npc_name.lower():
                 npc = character
                 break
 
         if npc:
-            # Affiche le message cyclique du PNJ
             print(f"\n{npc.get_msg()}\n")
+            return True
         else:
             print("\nPersonnage non trouvé.\n")
+            return False
 
 
 

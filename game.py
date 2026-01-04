@@ -44,25 +44,25 @@ class Game:
         
         # Setup rooms
 
-        clairiere = Room("clairiere", "dans une clairière illuminée par des lucioles qui ne disparaissent jamais.")
+        clairiere = Room("clairiere", "dans une clairière illuminée par des lucioles qui scintillent de mille feux même dans la plus grande des terreurs nocturnes.")
         self.rooms.append(clairiere)
-        pont_arc = Room("pont_arc", "sur un pont magique où chaque pas fait changer les couleurs autour de vous.")
+        pont_arc = Room("pont_arc", "sur un pont magique où chaque pas que vous faites fait miraculeusement changer les couleurs autour de vous!")
         self.rooms.append(pont_arc)
-        lac_miroir  = Room("lac_miroir", "près d’un lac si calme qu’il reflète votre âme… mais il peut vous figer pour toujours.")
+        lac_miroir  = Room("lac_miroir", "près d’un lac si calme qu’il pourrait refléter votre âme… mais gare à vous car il pourrait y figer ce qu'il y a de plus profond dans votre coeur!")
         self.rooms.append(lac_miroir)
-        sentier_lanternes = Room("sentier_lanternes", "sur un long sentier où des lanternes anciennes murmurent des bruits inquiétants.")
+        sentier_lanternes = Room("sentier_lanternes", "sur un long sentier où des lanternes anciennes murmurent des bruits inquiétants, tellement inquiétant que même les fantômes les plus terrorisants n'osent s'y aventurer .")
         self.rooms.append(sentier_lanternes)
-        pierres_cristal = Room("pierres_cristal", "devant d’énormes rochers lumineux qui battent comme un cœur vivant.")
+        pierres_cristal = Room("pierres_cristal", "devant d’énormes rochers lumineux qui illuminent le ciel si gaiement que toute la forêt y trouve sa sérénité.")
         self.rooms.append(pierres_cristal)
-        jardins_fleurs = Room("jardins_fleurs", "dans un jardin magique où les fleurs dégagent un parfum étourdissant et dangereux.")
+        jardins_fleurs = Room("jardins_fleurs", "dans un jardin magique où les fleurs dégagent un parfum si étourdissant et si enchanteur que les sirènes tentent tant bien que mal de s'en procurer.")
         self.rooms.append(jardins_fleurs)
-        grotte_lumineuse = Room("grotte_lumineuse","dans une grotte scintillante où des cristaux diffusent une lumière surnaturelle.")
+        grotte_lumineuse = Room("grotte_lumineuse","dans une grotte scintillante dont les critaux magiques pourraient guérir n'importe quelle bête de la nature.")
         self.rooms.append(grotte_lumineuse)
-        arbre_ancien = Room("arbre_ancien","au pied d’un arbre millénaire dont le tronc est couvert de symboles anciens.")
+        arbre_ancien = Room("arbre_ancien","au pied d’un arbre millénaire dont le tronc est couvert de symboles anciens tribaux venus des océans.")
         self.rooms.append(arbre_ancien)
-        mare_brulee = Room("mare_brulee","près d’une mare bouillonnante dont l’eau noire dégage une chaleur inquiétante.")
+        mare_brulee = Room("mare_brulee","près d’une mare bouillonnante dont l’eau noire dégage une chaleur qui pourraient vous brûler en un rien de temps.")
         self.rooms.append(mare_brulee)
-        ruines_elfiques = Room("ruines_elfiques","au milieu de ruines elfiques envahies par la mousse et la magie oubliée.")
+        ruines_elfiques = Room("ruines_elfiques","au milieu de ruines elfiques envahies par la mousse et la magie oubliée par les elfes des Marabes, qui sont tombés amoureux des tournesols de Picana.")
         self.rooms.append(ruines_elfiques)
 
         # Create exits for rooms
@@ -94,9 +94,9 @@ class Game:
         lanterne_elfique = Item("lanterne","une lanterne elfique éclairant même les ténèbres magiques",2)
         fleur_somnolente = Item("fleur","une fleur enchantée dont le parfum peut endormir les imprudents",1)
         racine_magique = Item("racine", "une racine noueuse imprégnée de magie ancienne", 2)
-        pierre_chaude = Item("charbon", "une pierre brûlante issue de la mare", 2)
+        pierre_chaude = Item("charbon", "une pierre brûlante issue du coeur séché d'un arbre ", 2)
         tablette_elfique = Item("tablette", "une tablette gravée de runes elfiques", 3)
-        cristal_pur = Item("cristal_pur", "un cristal d'une pureté exceptionnelle", 2)
+        cristal_pur = Item("cristal_pur", "un cristal d'une pureté exceptionnelle, concu pour apaiser les chagrins amoureux", 2)
 
         # Place enchanted items in rooms
 
@@ -125,7 +125,7 @@ class Game:
     def process_command(self, command_string) -> None:
 
         # Split the command string into a list of words
-        list_of_words = command_string.split(" ")
+        list_of_words = command_string.split()
 
         command_word = list_of_words[0]
 

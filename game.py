@@ -158,6 +158,9 @@ class Game:
         # Split the command string into a list of words
         list_of_words = command_string.split()
 
+        if not list_of_words:
+            return
+
         command_word = list_of_words[0]
 
         # If the command is not recognized, print an error message

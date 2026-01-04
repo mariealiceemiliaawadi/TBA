@@ -11,6 +11,8 @@ from command import Command
 from actions import Actions
 from item import Item
 from character import Character
+from actions import talk
+
 
 class Game:
 
@@ -47,7 +49,8 @@ class Game:
         self.commands["check"] = check
         talk = Command("talk", "<personnage> : parler à un PNJ", Actions.talk, 1)
         self.commands["talk"] = talk
-        
+
+                
         
         # Setup rooms
 
@@ -72,7 +75,7 @@ class Game:
         ruines_elfiques = Room("ruines_elfiques","au milieu de ruines elfiques envahies par la mousse et la magie oubliée par les elfes des Marabes, qui sont tombés amoureux des tournesols de Picana.")
         self.rooms.append(ruines_elfiques)
 
-        # Create characters
+        # Create characters 
         Luci = Character("Luci la fée", "une petite fée lumineuse qui flotte doucement dans l’air", clairiere, ["Bienvenue voyageur… la forêt t’observe."])
         mage_pont = Character("Aeral le Mage", "un mage vêtu d’une cape changeant de couleur à chaque pas", pont_arc, ["Le pont réagit aux émotions… marche avec prudence."])
         gardien = Character("Le Gardien de Cristal", "un être ancien fait de pierre et de lumière", pierres_cristal, ["Les pierres ne parlent qu’aux âmes patientes."])

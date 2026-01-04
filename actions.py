@@ -12,6 +12,12 @@
 
 # The error message is stored in the MSG0 and MSG1 variables and formatted with the command_word variable, the first word in the command.
 # The MSG0 variable is used when the command does not take any parameter.
+
+from character import Character
+
+
+
+
 MSG0 = "\nLa commande '{command_word}' ne prend pas de paramètre.\n"
 # The MSG1 variable is used when the command takes 1 parameter.
 MSG1 = "\nLa commande '{command_word}' prend 1 seul paramètre.\n"
@@ -234,18 +240,37 @@ class Actions:
         print(game.player.get_inventory())
         return True
 
-    def talk(game, list_of_words, number_of_parameters):
+    def talk(game, list_of_words, nb_params):
+    """
+    Permet de parler à un PNJ présent dans la pièce.
+    La commande est de la forme : talk <nom_du_personnage>
+    """
+
         if len(list_of_words) < 2:
-            print("Parlez à qui ?")
-            return False
+            print("\nPrécisez le personnage à qui parler !\n")
+            return
 
-        name = " ".join(list_of_words[1:]).lower()
+        # Recombine tous les mots après 'talk' pour former le nom complet
+        npc_name = " ".join(list_of_words[1:])
 
-        for c in game.player.current_room.characters:
-            if name in c.name.lower():
-                print(c.get_msg())
-                return True
+        # Cherche le PNJ dans la pièce actuelle du joueur
+        npc = None
+        for character in game.player.current_room.characters:
+            if character.name.lower() == npc_name.lower():  # ignore la casse
+                npc = character
+                break
 
-        print("Personnage non trouvé.")
-        return False
+        if npc:
+            # Affiche le message cyclique du PNJ
+            print(f"\n{npc.get_msg()}\n")
+        else:
+            print("\nPersonnage non trouvé.\n")
+
+
+
+
+
+
+
+
 

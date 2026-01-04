@@ -49,3 +49,6 @@ class Room:
 
     def add_character(self, character):
         self.characters.append(character)
+        character.current_room = self
+
+    

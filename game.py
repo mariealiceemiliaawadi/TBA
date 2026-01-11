@@ -1,4 +1,7 @@
-"""Game class"""
+# Description: Game class
+
+# Variable de contrôle pour le debug
+DEBUG = False
 
 # Import modules
 
@@ -6,101 +9,178 @@ from room import Room
 from player import Player
 from command import Command
 from actions import Actions
-from quest import Quest
+from item import Item
+from character import Character
+from quest import Quest, QuestManager
+
+
+
 
 class Game:
-    """The Game class manages the overall game state and flow."""
 
-
+    # Constructor
     def __init__(self):
         self.finished = False
         self.rooms = []
         self.commands = {}
         self.player = None
-
-
-    # Setup the game
-    def setup(self, player_name=None):
-        """Initialize the game with rooms, commands, and quests."""
-        self._setup_commands()
-        self._setup_rooms()
-        self._setup_player(player_name)
+        self.directions = set()
+        self.quest_manager = QuestManager()
         self._setup_quests()
 
 
-    def _setup_commands(self):
-        """Initialize all game commands."""
-        self.commands["help"] = Command("help"
-                                        , " : afficher cette aide"
-                                        , Actions.help
-                                        , 0)
-        self.commands["quit"] = Command("quit"
-                                        , " : quitter le jeu"
-                                        , Actions.quit
-                                        , 0)
-        self.commands["go"] = Command("go"
-                                      , "<N|E|S|O> : se déplacer dans une direction cardinale"
-                                      , Actions.go
-                                      , 1)
-        self.commands["quests"] = Command("quests"
-                                          , " : afficher la liste des quêtes"
-                                          , Actions.quests
-                                          , 0)
-        self.commands["quest"] = Command("quest"
-                                         , " <titre> : afficher les détails d'une quête"
-                                         , Actions.quest
-                                         , 1)
-        self.commands["activate"] = Command("activate"
-                                            , " <titre> : activer une quête"
-                                            , Actions.activate
-                                            , 1)
-        self.commands["rewards"] = Command("rewards"
-                                           , " : afficher vos récompenses"
-                                           , Actions.rewards
-                                           , 0)
 
+    
+    # Setup the game
+    def setup(self):
 
-    def _setup_rooms(self):
-        """Initialize all rooms and their exits."""
-        # Create rooms
-        s = "dans une forêt enchantée, avec une brise légère à travers la cime des arbres."
-        forest = Room("Forest", s)
+        # Setup commands
 
-        s = "dans une immense tour en pierre qui s'élève au dessus des nuages."
-        tower = Room("Tower", s)
+        help = Command("help", " : afficher cette aide", Actions.help, 0)
+        self.commands["help"] = help
+        quit = Command("quit", " : quitter le jeu", Actions.quit, 0)
+        self.commands["quit"] = quit
+        go = Command("go", " <direction> : se déplacer dans une direction cardinale (N, E, S, O)", Actions.go, 1)
+        self.commands["go"] = go
+        history = Command("history", " : consulter son historique", Actions.history, 0)
+        self.commands["history"] = history
+        back = Command("back", " : revenir à la pièce précédente", Actions.back, 0)
+        self.commands["back"] = back
+        look = Command("look", " : afficher la liste des items présents dans cette pièce", Actions.look, 0)
+        self.commands["look"] = look
+        take = Command("take", " : prendre les items présents dans la pièce ", Actions.take, 1)
+        self.commands["take"] = take
+        drop = Command("drop", " : reposer un item dans la pièce", Actions.drop, 1)
+        self.commands["drop"] = drop
+        check = Command("check", " : afficher l'inventaire du joueur", Actions.check, 0)
+        self.commands["check"] = check
+        talk_cmd = Command("talk", "<personnage> : parler à un PNJ", Actions.talk, -1)
+        self.commands["talk"] = talk_cmd
 
-        s = "dans une grotte profonde et sombre. Des voix proviennent des profondeurs."
-        cave = Room("Cave", s)
+                
+        
+        # Setup rooms
 
-        s = "dans un chalet au toit de chaume. Une épaisse fumée verte sort de la cheminée."
-        cottage = Room("Cottage", s)
+        clairiere = Room("clairiere", "dans une clairière illuminée par des lucioles qui scintillent de mille feux même dans la plus grande des terreurs nocturnes.")
+        self.rooms.append(clairiere)
+        pont_arc = Room("pont_arc", "sur un pont magique où chaque pas que vous faites fait miraculeusement changer les couleurs autour de vous!")
+        self.rooms.append(pont_arc)
+        lac_miroir  = Room("lac_miroir", "près d’un lac si calme qu’il pourrait refléter votre âme… mais gare à vous car il pourrait y figer ce qu'il y a de plus profond dans votre coeur!")
+        self.rooms.append(lac_miroir)
+        sentier_lanternes = Room("sentier_lanternes", "sur un long sentier où des lanternes anciennes murmurent des bruits inquiétants, tellement inquiétant que même les fantômes les plus terrorisants n'osent s'y aventurer .")
+        self.rooms.append(sentier_lanternes)
+        pierres_cristal = Room("pierres_cristal", "devant d’énormes rochers lumineux qui illuminent le ciel si gaiement que toute la forêt y trouve sa sérénité.")
+        self.rooms.append(pierres_cristal)
+        jardins_fleurs = Room("jardins_fleurs", "dans un jardin magique où les fleurs dégagent un parfum si étourdissant et si enchanteur que les sirènes tentent tant bien que mal de s'en procurer.")
+        self.rooms.append(jardins_fleurs)
+        grotte_lumineuse = Room("grotte_lumineuse","dans une grotte scintillante dont les critaux magiques pourraient guérir n'importe quelle bête de la nature.")
+        self.rooms.append(grotte_lumineuse)
+        arbre_ancien = Room("arbre_ancien","au pied d’un arbre millénaire dont le tronc est couvert de symboles anciens tribaux venus des océans.")
+        self.rooms.append(arbre_ancien)
+        mare_brulee = Room("mare_brulee","près d’une mare bouillonnante dont l’eau noire dégage une chaleur qui pourraient vous brûler en un rien de temps.")
+        self.rooms.append(mare_brulee)
+        ruines_elfiques = Room("ruines_elfiques","au milieu de ruines elfiques envahies par la mousse et la magie oubliée par les elfes des Marabes, qui sont tombés amoureux des tournesols de Picana.")
+        self.rooms.append(ruines_elfiques)
 
-        s = "dans un marécage vaseux, sombre et ténébreux. L'eau bouillonne."
-        swamp = Room("Swamp", s)
+        # Create characters 
+        Luci = Character("Luci la fée", "une petite fée lumineuse qui flotte doucement dans l’air", clairiere, ["Bienvenue voyageur… la forêt t’observe."])
+        mage_pont = Character("Aeral le Mage", "un mage vêtu d’une cape changeant de couleur à chaque pas", pont_arc, ["Le pont réagit aux émotions… marche avec prudence.", "Tu devrais faire plus attention où tu poses tes pieds voyons!"])
+        gardien = Character("Le Gardien de Cristal", "un être ancien fait de pierre et de lumière", pierres_cristal, ["Les pierres ne parlent qu’aux âmes patientes."])
+        veilleur = Character("Le Veilleur des Lanternes", "un vieil esprit silencieux tenant une lanterne tremblante", sentier_lanternes, ["Les lanternes montrent parfois ce que l’on fuit."])
+        nymphe = Character("La Nymphe du lac", "une silhouette translucide émergeant de l’eau", lac_miroir, ["Prends garde… le lac ne pardonne pas."])
+        dryade = Character("La Dryade des Fleurs", "une créature végétale aux yeux brillants cachée parmi les pétales", jardins_fleurs, ["Respire lentement… certaines fleurs endorment pour toujours."])
 
-        s = "dans un château fort avec un pont levis et des tours à la flèche en or massif."
-        castle = Room("Castle", s)
+        clairiere.add_character(Luci)
+        pont_arc.add_character(mage_pont)
+        pierres_cristal.add_character(gardien)
+        sentier_lanternes.add_character(veilleur)
+        lac_miroir.add_character(nymphe)
+        jardins_fleurs.add_character(dryade)
 
-        # Add rooms to game
-        for room in [forest, tower, cave, cottage, swamp, castle]:
-            self.rooms.append(room)
+        # Create exits for rooms
 
-        # Create exits
-        forest.exits = {"N": cave, "E": tower, "S": castle, "O": None}
-        tower.exits = {"N": cottage, "E": None, "S": swamp, "O": forest}
-        cave.exits = {"N": None, "E": cottage, "S": forest, "O": None}
-        cottage.exits = {"N": None, "E": None, "S": tower, "O": cave}
-        swamp.exits = {"N": tower, "E": None, "S": None, "O": castle}
-        castle.exits = {"N": forest, "E": swamp, "S": None, "O": None}
+        clairiere.exits = {"N": pont_arc, "O": lac_miroir, "S": sentier_lanternes, "E": None }
+        pont_arc.exits = { "E": pierres_cristal, "O": lac_miroir, "S": jardins_fleurs, "N": None }
+        lac_miroir.exits = {"N": pont_arc, "E": jardins_fleurs, "S": sentier_lanternes, "O": clairiere }
+        sentier_lanternes.exits = {"N": clairiere, "E": jardins_fleurs, "S": lac_miroir, "O":  pont_arc }
+        pierres_cristal.exits = {"N": jardins_fleurs, "E": sentier_lanternes, "S": lac_miroir, "O": pont_arc }
+        jardins_fleurs.exits = {"N": pont_arc, "E": ruines_elfiques, "S": lac_miroir, "O": sentier_lanternes }
+        ruines_elfiques.exits = {"O": jardins_fleurs,"N": arbre_ancien,"E": grotte_lumineuse,"S": mare_brulee}
+        arbre_ancien.exits = {"S": ruines_elfiques,"O": pont_arc,"E": None,"N": None}
+        grotte_lumineuse.exits = {"O": ruines_elfiques,"S": pierres_cristal,"N": None,"E": None}
+        mare_brulee.exits = {"N": ruines_elfiques,"O": sentier_lanternes,"E": None,"S": None}
 
+        for room in self.rooms :
+            self.directions.update(room.exits.keys())
+        
+        # Setup player and starting room
 
-    def _setup_player(self, player_name=None):
-        """Initialize the player."""
-        if player_name is None:
-            player_name = input("\nEntrez votre nom: ")
+        self.player = Player(input("\nEntrez votre nom: "))
+        self.player.current_room = pont_arc
 
-        self.player = Player(player_name)
-        self.player.current_room = self.rooms[4]  # swamp
+        # Create enchanted forest items
+        baton_lumineux = Item("baton","un bâton ancien gravé de runes, diffusant une douce lumière",2)
+        poussiere_fee = Item("poussiere","une poudre scintillante laissée par les fées de la forêt",1)
+        feuille_ancestrale = Item("feuille","une feuille dorée chargée de magie protectrice",1)
+        pierre_chantante = Item("pierre","une pierre mystérieuse qui murmure lorsque vous l'approchez",2)
+        lanterne_elfique = Item("lanterne","une lanterne elfique éclairant même les ténèbres magiques",2)
+        fleur_somnolente = Item("fleur","une fleur enchantée dont le parfum peut endormir les imprudents",1)
+        racine_magique = Item("racine", "une racine noueuse imprégnée de magie ancienne", 2)
+        pierre_chaude = Item("charbon", "une pierre brûlante issue du coeur séché d'un arbre ", 2)
+        tablette_elfique = Item("tablette", "une tablette gravée de runes elfiques", 3)
+        cristal_pur = Item("cristal_pur", "un cristal d'une pureté exceptionnelle, concu pour apaiser les chagrins amoureux", 2)
+
+        # Place enchanted items in rooms
+
+        clairiere.inventory["baton"] = baton_lumineux
+        pont_arc.inventory["lanterne"] = lanterne_elfique
+        lac_miroir.inventory["pierre"] = pierre_chantante
+        sentier_lanternes.inventory["poussiere"] = poussiere_fee
+        pierres_cristal.inventory["feuille"] = feuille_ancestrale
+        jardins_fleurs.inventory["fleur"] = fleur_somnolente
+        arbre_ancien.inventory["racine"] = racine_magique
+        mare_brulee.inventory["charbon"] = pierre_chaude
+        ruines_elfiques.inventory["tablette"] = tablette_elfique
+        grotte_lumineuse.inventory["cristal_pur"] = cristal_pur
+
+    # Play the game
+    def play(self):
+        self.setup()
+        self.print_welcome()
+        # Loop until the game is finished
+        while not self.finished:
+            # Get the command from the player
+            self.process_command(input("> "))
+
+            # Déplacer tous les PNJ après chaque commande
+            for room in self.rooms:
+                for character in room.characters[:]:  # copie de la liste
+                    moved = character.move()
+                    if moved and DEBUG:
+                        print(f"DEBUG: {character.name} s'est déplacé")
+
+    # Process the command entered by the player
+    def process_command(self, command_string) -> None:
+
+        # Split the command string into a list of words
+        list_of_words = command_string.split()
+
+        command_word = list_of_words[0]
+
+        # If the command is not recognized, print an error message
+        if command_word not in self.commands.keys():
+            print(f"\nCommande '{command_word}' non reconnue. Entrez 'help' pour voir la liste des commandes disponibles.\n")
+        # If the command is recognized, execute it
+        else:
+            command = self.commands[command_word]
+            command.action(self, list_of_words, command.number_of_parameters)
+
+    # Print the welcome message
+    def print_welcome(self):
+        print(f"\nBienvenue {self.player.name} dans cet univers magique !")
+        print("Entrez 'help' si vous avez besoin d'aide.")
+        #
+        print(self.player.current_room.get_long_description())
 
 
     def _setup_quests(self):
@@ -114,7 +194,7 @@ class Game:
                         , "Visiter Cottage"
                         , "Visiter Castle"],
             reward="Titre de Grand Explorateur"
-        )
+            )
 
         travel_quest = Quest(
             title="Grand Voyageur",
@@ -133,57 +213,15 @@ class Game:
         )
 
         # Add quests to player's quest manager
-        self.player.quest_manager.add_quest(exploration_quest)
-        self.player.quest_manager.add_quest(travel_quest)
-        self.player.quest_manager.add_quest(discovery_quest)
-
-
-    # Play the game
-    def play(self):
-        """Main game loop."""
-
-        self.setup()
-        self.print_welcome()
-        # Loop until the game is finished
-        while not self.finished:
-            # Get the command from the player
-            self.process_command(input("> "))
-
-
-    # Process the command entered by the player
-    def process_command(self, command_string) -> None:
-        """Process the command entered by the player."""
-
-        # Split the command string into a list of words
-        list_of_words = command_string.split(" ")
-
-        command_word = list_of_words[0]
-
-        # If the command is not recognized, print an error message
-        if command_word not in self.commands:
-            msg1 = f"\nCommande '{command_word}' non reconnue."
-            msg2 = " Entrez 'help' pour voir la liste des commandes disponibles.\n"
-            print(msg1 + msg2)
-        # If the command is recognized, execute it
-        else:
-            command = self.commands[command_word]
-            command.action(self, list_of_words, command.number_of_parameters)
-
-
-    # Print the welcome message
-    def print_welcome(self):
-        """Print the welcome message."""
-
-        print(f"\nBienvenue {self.player.name} dans ce jeu d'aventure !")
-        print("Entrez 'help' si vous avez besoin d'aide.")
-
-        print(self.player.current_room.get_long_description())
-
+        self.quest_manager.add_quest(exploration_quest)
+        self.quest_manager.add_quest(travel_quest)
+        self.quest_manager.add_quest(discovery_quest)
+    
 
 def main():
-    """Create a game object and play the game"""
+    # Create a game object and play the game
     Game().play()
-
+    
 
 if __name__ == "__main__":
     main()

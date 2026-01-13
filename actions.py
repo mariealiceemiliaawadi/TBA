@@ -25,59 +25,49 @@ MSG1 = "\nLa commande '{command_word}' prend 1 seul paramètre.\n"
 class Actions:
 
     def go(game, list_of_words, number_of_parameters):
-        """
-        Move the player in the direction specified by the parameter.
-        The parameter must be a cardinal direction (N, E, S, O).
 
-        Args:
-            game (Game): The game object.
-            list_of_words (list): The list of words in the command.
-            number_of_parameters (int): The number of parameters expected by the command.
-
-        Returns:
-            bool: True if the command was executed successfully, False otherwise.
-
-        Examples:
-        
-        >>> from game import Game
-        >>> game = Game()
-        >>> game.setup()
-        >>> go(game, ["go", "N"], 1)
-        True
-        >>> go(game, ["go", "N", "E"], 1)
-        False
-        >>> go(game, ["go"], 1)
-        False
-
-        """
-        
-        player = game.player
-        l = len(list_of_words)
-        # If the number of parameters is incorrect, print an error message and return False.
-        if l != number_of_parameters + 1:
-            command_word = list_of_words[0]
-            print(MSG1.format(command_word=command_word))
+        if len(list_of_words) != 2:
+            print("\nLa commande 'go' prend une direction.\n")
             return False
 
-        # Get the direction from the list of words.
+        direction = list_of_words[1].upper()
+        player = game.player
+        current_room = player.current_room
+        next_room = current_room.get_exit(direction)
 
-        directions = {"NORD":"N", "N":"N", "Sud": "S", "S":"S",
-        "OUEST":"O", "O":"O", "EST":"E", "E":"E", "UP":"U", "U":"U", "DOWN":"D", "D":"D"}
-        direction = list_of_words[1].upper() #majuscule
+        if not next_room:
+            print("\nAucune porte dans cette direction.\n")
+            return False
 
-        if direction in directions:
-            direction = directions[direction]
-            next_room = player.current_room.get_exit(direction)
-            if next_room:
-                player.history.append(player.current_room)
-                player.current_room = next_room
-                print(player.current_room.get_long_description())
-            else:
-                print("\nAucune porte dans cette direction !")
-        else:
-            print("\nDirection", direction, "non reconnue")
+        # 🔐 AVANT D’ENTRER DANS LA SALLE SUIVANTE
+        for character in next_room.characters:
+            if character.has_question():
 
+                character.ask_question()
+
+                while character.attempts_left > 0 and not character.solved:
+                    user_input = input("> ")
+                    character.try_answer(user_input)
+
+                # ❌ ÉCHEC → REDESCENTE
+                if not character.solved:
+                    print("🚨 Tu es repoussé et redescends d’un niveau.\n")
+
+                    for room in game.rooms:
+                        if current_room in room.exits.values():
+                            player.current_room = room
+                            print(player.current_room.get_long_description())
+                            return False
+
+                    return False
+
+        # ✅ SUCCÈS → DÉPLACEMENT
+        player.history.append(current_room)
+        player.current_room = next_room
+        print(player.current_room.get_long_description())
         return True
+
+
 
 
     def quit(game, list_of_words, number_of_parameters):
@@ -209,8 +199,10 @@ class Actions:
             print(f"\nIl n'y a pas d'objet '{item_name}' ici.\n")
             return False
 
-        player.inventory[item_name] = room.inventory.pop(item_name)
-        print(f"\nVous avez pris : {player.inventory[item_name]}\n")
+        item = room.inventory.pop(item_name)
+        player.inventory[item_name] = item
+        game.quest_manager.update(f"Obtenir {item.name}")
+        print(f"\nVous avez pris : {item}\n")
         return True
 
     def drop(game, list_of_words, number_of_parameters):

@@ -1,13 +1,18 @@
 # TBA - Jeu d'Aventure Textuel avec Système de Quêtes
 
-Cette branche contient une version du jeu d'aventure TBA (Text-Based Adventure) avec un système de quêtes intégré.
+Cette branche contient une version du jeu d’aventure TBA (Text-Based Adventure) intégrant un système de quêtes complet et structuré.
+
 
 ## Description
 
-TBA est un jeu d'aventure textuel où le joueur explore différents lieux et accomplit des quêtes via des commandes textuelles.
+Ce document décrit une version avancée du jeu d’aventure textuel TBA, se déroulant dans un univers de forêt magique peuplé de lieux mystérieux, d’objets enchantés et de personnages non-joueurs (PNJ).
+
+Le joueur explore une carte composée de plusieurs zones interconnectées, interagit avec des objets, parle à des personnages et peut revenir sur ses pas grâce à un système d’historique.
+Cette version constitue une base solide et fonctionnelle, pensée pour être enrichie progressivement.
+
 
 **État actuel du projet (branche `tba-quests`) :**
-- 6 lieux explorables
+- 10 lieux explorables et interconnectés
 - Navigation par directions cardinales (N, E, S, O)
 - **Système de quêtes complet** avec objectifs et récompenses
 - Gestion des quêtes actives et complétées
@@ -29,6 +34,13 @@ python game.py
 - `help` : Afficher l'aide et la liste des commandes
 - `quit` : Quitter le jeu
 - `go <direction>` : Se déplacer dans une direction (N, E, S, O)
+- `back` : Revenir en arrière
+- `look` : Observer la pièce
+- `take <objet>` : Ramasser un objet
+- `drop <objet>` : Déposer un obje
+- `check` : Consulter l’inventaire
+- `talk <personnage>` : Parler à un PNJ
+- `history` : Consulter l’historique
 
 ### Commandes de quêtes
 - `quests` : Afficher la liste de toutes les quêtes disponibles

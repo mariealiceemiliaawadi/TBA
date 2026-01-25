@@ -5,7 +5,7 @@ Ce projet est un jeu d'aventure textuel (TBA) se déroulant dans un univers magi
 
 ## Histoire
 
-Alice était une personne timide qui n'osait pas prendre la parole. Un soir, elle pria pour devenir courageuse. La fée Emma exauça son vœu et Alice se réveilla dans une forêt enchantée où les lois physiques sont suspendues. Cette personne, c'est vous.
+Le joueur était une personne timide qui n'osait pas prendre la parole. Un soir, il pria pour devenir courageux. La fée Emma exauça son vœu et il se réveilla dans une forêt enchantée où les lois physiques sont suspendues. Cette personne, c'est vous.
 
 
 ## Description

@@ -21,6 +21,23 @@ Cette version constitue une base solide et fonctionnelle, pensée pour être enr
 
 Cette version introduit un système de quêtes qui enrichit considérablement l'expérience de jeu et sert de base pour des mécaniques plus complexes.
 
+## Règles du jeu
+
+Le jeu suit quelques règles spécifiques pour enrichir l'expérience et introduire des énigmes dans chaque salle :
+
+  - Chaque salle contient une énigme que le joueur doit résoudre pour pouvoir avancer.
+
+  - Le joueur dispose de 3 tentatives maximum par énigme.
+
+  - En cas d’échec, le joueur reculera automatiquement à la salle précédente.
+
+  - Tant que l’énigme n’est pas résolue, il n’est pas possible de se déplacer vers de nouvelles zones.
+
+  - Le joueur peut obtenir un indice pour l’énigme en utilisant le mot magique : abracadabra
+
+Ces règles fonctionnent en complément du système de quêtes. Une énigme peut parfois être liée à la progression d’une quête, et la résolution peut déclencher l’activation d’un objectif.
+
+
 ## Lancement du jeu
 
 Pour démarrer le jeu, exécuter simplement :
@@ -46,6 +63,10 @@ python game.py
 - `quests` : Afficher la liste de toutes les quêtes disponibles
 - `quest <titre>` : Afficher les détails d'une quête spécifique
 - `activate <titre>` : Activer une quête pour commencer à la suivre
+
+### Commandes spéciales pour les énigmes
+- `abracadabra` : Obtenir un indice pour résoudre l’énigme de la salle actuelle
+
 
 ## Système de Quêtes
 

@@ -10,7 +10,7 @@ Le joueur était une personne timide qui n'osait pas prendre la parole. Un soir,
 
 ## Description
 
-Ce document décrit une version immersive du jeu d’aventure textuel TBA (Text-Based Adventure), plongeant le joueur dans le récit d'Alice, une jeune fille timide propulsée dans une Forêt Enchantée par la fée Emma. Dans cet univers où les lois physiques et intergalactiques s'arrêtent, le joueur doit faire preuve de courage et de rigueur pour progresser.
+Ce document décrit une version immersive du jeu d’aventure textuel TBA (Text-Based Adventure), plongeant le joueur dans le récit du joueur, une jeune fille timide propulsée dans une Forêt Enchantée par la fée Emma. Dans cet univers où les lois physiques et intergalactiques s'arrêtent, le joueur doit faire preuve de courage et de rigueur pour progresser.
 
 Le joueur explore une carte composée de zones mystérieuses interconnectées, interagit avec des objets magiques et rencontre des habitants (PNJ) comme la fée Luci. Cette version intègre des mécaniques de jeu avancées :
 

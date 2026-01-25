@@ -73,3 +73,5 @@ Le jeu utilise une architecture orientée objet avec gestion d'événements :
 2. **Player** contient un `QuestManager` qui suit les quêtes actives
 3. **QuestManager** vérifie automatiquement la progression lors des actions du joueur
 4. **Objectives** définissent différents types de conditions à remplir
+
+Voici le lien de la vidéo si vous n 'avez pas accès à celle ci directement: https://www.youtube.com/watch?v=rcNoronerv4

@@ -1,75 +1,23 @@
-# TBA - Jeu d'Aventure Textuel avec Système de Quêtes
+LE CONCEPT DE LA FORÊT ENCHANTÉE
 
-Cette branche contient une version du jeu d'aventure TBA (Text-Based Adventure) avec un système de quêtes intégré.
+L'aventure commence quand le joueur entre son propre nom pour s'immerger dans un monde magique composé de HUIT LIEUX MYSTÉRIEUX comme la Clairière, le Pont Arc ou encore le Lac Miroir. Le but est de réussir à traverser toutes ces zones pour atteindre l'ARBRE ANCIEN, mais le chemin est semé d'embûches car chaque salle appartient à un habitant spécifique. On y croise des personnages hauts en couleur comme LUCI LA FÉE, BIG BOB LE MAGE ou même CHANTAL LA CHÈVRE, qui ne vous laisseront pas passer sans avoir testé votre logique.
 
-## Description
+LE SYSTÈME DES ÉNIGMES ET DES HABITANTS
 
-TBA est un jeu d'aventure textuel où le joueur explore différents lieux et accomplit des quêtes via des commandes textuelles.
+Pour pouvoir se déplacer d'une salle à une autre, il faut obligatoirement répondre à une question posée par le personnage présent sur place. Ce qui est intéressant, c'est que le jeu utilise un DICTIONNAIRE GÉANT DE CENT QUESTIONS différentes et en pioche une totalement AU HASARD à chaque fois. Cela veut dire que même si vous repassez au même endroit, vous ne tomberez pas forcément sur la même colle, ce qui rend chaque partie vraiment unique et imprévisible.
 
-**État actuel du projet (branche `tba-quests`) :**
-- 6 lieux explorables
-- Navigation par directions cardinales (N, E, S, O)
-- **Système de quêtes complet** avec objectifs et récompenses
-- Gestion des quêtes actives et complétées
-- Suivi automatique de la progression des objectifs
-- Statistiques de déplacement du joueur
+COMMENT ON GAGNE LA PARTIE
 
-Cette version introduit un système de quêtes qui enrichit considérablement l'expérience de jeu et sert de base pour des mécaniques plus complexes.
+Pour voir s'afficher le MESSAGE DE VICTOIRE, il ne suffit pas d'arriver devant l'Arbre Ancien par chance. Le jeu vérifie que vous avez bien accompli la QUÊTE DU COLLECTIONNEUR en récupérant les SEPT OBJETS MAGIQUES cachés dans la forêt. Si vous avez bien en main la potion, la fleur, le peigne, le miroir, la guirlande, la baguette et la branche, alors la forêt s'illumine et vous avez gagné l'aventure.
 
-## Lancement du jeu
+LES RÈGLES DE L'ÉCHEC ET DU RETOUR À ZÉRO
 
-Pour démarrer le jeu, exécuter simplement :
-```bash
-python game.py
-```
+Le jeu est assez strict sur les erreurs pour mettre un peu de pression. Si vous donnez TROIS MAUVAISES RÉPONSES à un habitant, vous êtes immédiatement téléporté à la toute première salle, la CLAIRIÈRE. C'est la même punition si vous essayez d'entrer chez l'Arbre Ancien sans avoir trouvé TOUS les objets magiques. Dans ces deux cas, votre INVENTAIRE EST TOTALEMENT VIDÉ et tous les objets que vous aviez ramassés RETOURNENT DANS LEUR SALLE D'ORIGINE pour vous obliger à recommencer le défi.
 
-## Commandes disponibles
+LES COMMANDES POUR JOUER ET SE REPÉRER
 
-### Commandes de base
-- `help` : Afficher l'aide et la liste des commandes
-- `quit` : Quitter le jeu
-- `go <direction>` : Se déplacer dans une direction (N, E, S, O)
+Pour s'en sortir, il faut utiliser des commandes simples comme LOOK pour fouiller la pièce ou TAKE pour ramasser ce que vous trouvez. Le déplacement se fait avec la commande GO suivie d'une direction, mais c'est à ce moment-là que l'habitant vous interpellera pour son énigme. Vous pouvez aussi vérifier votre progression avec QUESTS pour voir ce qu'il vous manque, ou regarder votre HISTORY pour voir le chemin que vous avez déjà parcouru avec succès.
 
-### Commandes de quêtes
-- `quests` : Afficher la liste de toutes les quêtes disponibles
-- `quest <titre>` : Afficher les détails d'une quête spécifique
-- `activate <titre>` : Activer une quête pour commencer à la suivre
+L'ORGANISATION TECHNIQUE DU CODE
 
-## Système de Quêtes
-
-Le système de quêtes permet de :
-- Définir des objectifs à accomplir
-- Suivre automatiquement la progression
-- Gérer plusieurs quêtes simultanément
-- Obtenir des récompenses à la completion
-
-**Types d'objectifs disponibles :**
-- Objectifs de visite : visiter un lieu spécifique
-- Objectifs de compteur : effectuer une action un certain nombre de fois (ex: se déplacer 10 fois)
-
-## Structuration
-
-Le projet est organisé en 6 modules contenant chacun une ou plusieurs classes :
-
-### Modules principaux
-
-- **`game.py` / `Game`** : Gestion de l'état du jeu, de l'environnement et de l'interface avec le joueur
-- **`room.py` / `Room`** : Propriétés génériques d'un lieu (nom, description, sorties)
-- **`player.py` / `Player`** : Représentation du joueur avec gestion des déplacements et intégration du QuestManager
-- **`command.py` / `Command`** : Structure des commandes avec leurs paramètres et actions associées
-- **`actions.py` / `Actions`** : Méthodes statiques définissant toutes les actions exécutables (déplacements, gestion des quêtes, etc.)
-- **`quest.py`** : 
-  - `Quest` : Représentation d'une quête avec ses objectifs
-  - `Objective` : Classe de base pour les objectifs
-  - `RoomObjective` : Objectif de visite d'un lieu
-  - `CounterObjective` : Objectif basé sur un compteur
-  - `QuestManager` : Gestionnaire des quêtes du joueur
-
-## Architecture
-
-Le jeu utilise une architecture orientée objet avec gestion d'événements :
-
-1. **Game** initialise le jeu et les quêtes disponibles
-2. **Player** contient un `QuestManager` qui suit les quêtes actives
-3. **QuestManager** vérifie automatiquement la progression lors des actions du joueur
-4. **Objectives** définissent différents types de conditions à remplir
+Derrière l'écran, tout est découpé en plusieurs PETITS FICHIERS pour que le code soit propre et bien organisé. Le fichier GAME.PY gère le moteur général tandis que ACTIONS.PY s'occupe de faire réagir le jeu à vos commandes. Les questions et les personnages sont gérés dans CHARACTER.PY, et un système de surveillance appelé QUEST.PY s'assure en permanence que vous remplissez bien vos objectifs pour la victoire finale.

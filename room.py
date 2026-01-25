@@ -7,48 +7,51 @@ class Room:
         self.name = name
         self.description = description
         self.exits = {}
-        self.inventory = {}
-        self.characters = []
+        self.inventory = []
+        self.characters = {}
     
     # Define the get_exit method.
-    def get_exit(self, direction):
-
-        # Return the room in the given direction if it exists.
-        if direction in self.exits.keys():
-            return self.exits[direction]
-        else:
-            return None
-    
+    def get_exit_string(self):
+        exit_string = "Sorties:"
+        for direction, neighbor in self.exits.items():
+            if neighbor is not None:
+                exit_string += f"\n\t- {direction} : {neighbor.name}"
+        return exit_string
+            
     # Return a string describing the room's exits.
     def get_exit_string(self):
-        exit_string = "Sorties: " 
-        for exit in self.exits.keys():
-            if self.exits.get(exit) is not None:
-                exit_string += exit + ", "
-        exit_string = exit_string.strip(", ")
+        exit_string = "Sorties: "
+        for direction, neighbor in self.exits.items():
+            if neighbor is not None:
+                exit_string += f"\n\t- {direction} -> {neighbor.description}"
         return exit_string
-
-    # Return a string describing the room's inventory.
-    def get_inventory(self):
-        result = ""
-        # Affichage des items
-        for item in self.inventory.values():
-            result += f"- {item.name} : {item.description} ({item.weight} kg)\n"
-        
-        # Affichage des personnages non joueurs
-        for character in self.characters:
-            result += f"- {character.name} : {character.description}\n"
-        
-        if result == "":
-            return "Il n'y a rien ici."
-        return result
 
     # Return a long description of this room including exits.
     def get_long_description(self):
-        return f"\nVous êtes {self.description}\n\n{self.get_exit_string()}\n"
+        desc = f"\nVous êtes {self.description}\n"
+        desc += self.get_characters_description()
+        desc += f"\n\n{self.get_exit_string()}"
+        return desc
+
+    def get_inventory(self):
+        if not self.inventory:
+            return "Il n'y a rien ici."
+        s = "La pièce contient :\n"
+        for item in self.inventory:
+            s += f"    - {item}\n"
+        return s
+
+    def look(self):
+        print(self.get_inventory())
 
     def add_character(self, character):
-        self.characters.append(character)
-        character.current_room = self
+        self.characters[character.name] = character
 
-    
+
+    def get_characters_description(self):
+        if not self.characters:
+            return ""
+        lines = "\nPersonnages présents :"
+        for name in self.characters:
+            lines += f"\n- {name}"
+        return lines
